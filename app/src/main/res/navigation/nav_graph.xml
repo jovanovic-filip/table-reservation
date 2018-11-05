@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nav_graph" app:startDestination="@id/customersListFragment">
+
+
+    <activity android:id="@+id/mainActivity"
+              android:name="com.tablereservation.core.platform.MainActivity"
+              android:label="MainActivity"/>
+    <fragment android:id="@+id/customersListFragment"
+              android:name="com.tablereservation.features.customers.CustomersListFragment"
+              android:label="CustomersListFragment">
+        <action android:id="@+id/openTableSelection"
+                app:destination="@id/tableSelectionFragment"/>
+    </fragment>
+    <fragment android:id="@+id/tableSelectionFragment"
+              android:name="com.tablereservation.features.tables.TableSelectionFragment"
+              android:label="TableSelectionFragment">
+        <argument android:name="customerId" app:argType="integer"/>
+    </fragment>
+</navigation>
+

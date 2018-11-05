@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Table Reservation</string>
+    <string name="action_clear_reservations">Clear Reservations</string>
+    <string name="existing_reservation">This table is taken!</string>
+    <string name="reservation_deleted">Reservation is successfully deleted.</string>
+    <string name="max_number_of_reservations_reached">This user can not make more reservations</string>
+    <string name="network_error_message">There was a problem with internet connection</string>
+    <string name="server_error_message">There was a problem on our backend. Please try again.</string>
+</resources>
