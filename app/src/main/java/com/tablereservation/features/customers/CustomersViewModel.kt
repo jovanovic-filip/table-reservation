@@ -19,6 +19,6 @@ class CustomersViewModel
 
     override fun onCleared() {
         super.onCleared()
-        getCustomers.coroutineContext.cancel()
+        getCustomers.cancel()
     }
 }

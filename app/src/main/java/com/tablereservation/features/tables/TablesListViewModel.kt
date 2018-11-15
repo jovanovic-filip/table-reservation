@@ -62,8 +62,8 @@ class TablesListViewModel
 
     override fun onCleared() {
         super.onCleared()
-        getCustomers.coroutineContext.cancel()
-        getTables.coroutineContext.cancel()
-        createReservation.coroutineContext.cancel()
+        getCustomers.cancel()
+        getTables.cancel()
+        createReservation.cancel()
     }
 }
