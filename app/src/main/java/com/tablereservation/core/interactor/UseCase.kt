@@ -3,6 +3,7 @@ package com.tablereservation.core.interactor
 import com.tablereservation.core.functional.Either
 import com.tablereservation.core.exception.Failure
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -15,26 +16,24 @@ import kotlin.coroutines.CoroutineContext
  */
 abstract class UseCase<out Type, in Params> : CoroutineScope where Type : Any {
 
+    override lateinit var coroutineContext : CoroutineContext
+
+    @Inject lateinit var contextProvider : UseCaseContextProvider
+
     abstract suspend fun run(params: Params): Either<Failure, Type>
 
-    override val coroutineContext = Job() + Dispatchers.Main
-
-    private var contextForBackgroundWork : CoroutineContext = Dispatchers.IO
-
-    /**
-     * Warning: this is a hacky method that MUST NOT be used outside of Unit test, its specific
-     * for making sure that coroutines are executed properly in test environment.
-     */
-    fun setupForUnitTests(){
-        contextForBackgroundWork = Dispatchers.Main
-    }
-
     operator fun invoke(params: Params, onResult: (Either<Failure, Type>) -> Unit = {}): Job {
-         return launch {
-            val result = withContext(contextForBackgroundWork) { run(params) }
+        coroutineContext = contextProvider.main
+         return launch { /*coroutineContext + contextProvider.main*/
+            val result = withContext(contextProvider.io) { run(params) }
             onResult(result)
         }
     }
-
     class None
+
+    fun cancel(){
+        if(this::coroutineContext.isInitialized){
+            coroutineContext.cancel()
+        }
+    }
 }
