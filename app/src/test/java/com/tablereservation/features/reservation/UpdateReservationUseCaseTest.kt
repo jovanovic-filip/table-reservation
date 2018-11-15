@@ -8,6 +8,7 @@ import com.tablereservation.features.tables.TableEntity
 import com.tablereservation.repository.Repository
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.verify
+import com.tablereservation.core.interactor.TestUseCaseContextProvider
 import kotlinx.coroutines.runBlocking
 import org.amshove.kluent.shouldBeInstanceOf
 import org.amshove.kluent.shouldEqual
@@ -16,13 +17,14 @@ import org.junit.Test
 import org.mockito.Mock
 
 class UpdateReservationUseCaseTest : UnitTest() {
+
     private lateinit var createReservationUseCase : UpdateReservationUseCase
     @Mock
     private lateinit var repository: Repository
 
-    private val CUSTOMER_ID = 23
-    private val OTHER_CUSTOMER_ID = 47
-    private val TABLE_ID = 101
+    private val CUSTOMER_ID = 1
+    private val OTHER_CUSTOMER_ID = 2
+    private val TABLE_ID = 1
     private val tableEntity = TableEntity(TABLE_ID,true,-1)
     private val otherCustomerTable = TableEntity(TABLE_ID,true,OTHER_CUSTOMER_ID)
     private val takenTable = TableEntity(TABLE_ID,false,-1)
@@ -31,11 +33,11 @@ class UpdateReservationUseCaseTest : UnitTest() {
     @Before
     fun setUp(){
         createReservationUseCase = UpdateReservationUseCase(repository)
-        createReservationUseCase.setupForUnitTests()
+        createReservationUseCase.contextProvider = TestUseCaseContextProvider()
     }
 
     @Test
-    fun `reservation is being created`(){
+    fun `new reservation is being saved`(){
         given {repository.getReservations(CUSTOMER_ID)}.willReturn(emptyList())
         given {repository.getTable(TABLE_ID)}.willReturn(tableEntity)
         runBlocking { createReservationUseCase.run(
@@ -45,7 +47,7 @@ class UpdateReservationUseCaseTest : UnitTest() {
     }
 
     @Test
-    fun `reservation is being deleted`(){
+    fun `existing reservation is being deleted`(){
         given {repository.getReservations(CUSTOMER_ID)}.willReturn(listOf(ownReservation))
         given {repository.getTable(TABLE_ID)}.willReturn(tableEntity)
         val result = runBlocking { createReservationUseCase.run(
@@ -58,7 +60,7 @@ class UpdateReservationUseCaseTest : UnitTest() {
     }
 
     @Test
-    fun `reservation belongs to other customer`(){
+    fun `when reservation that belongs to other customer is changed, failure occurs`(){
         given {repository.getReservations(CUSTOMER_ID)}.willReturn(emptyList())
         given {repository.getTable(TABLE_ID)}.willReturn(otherCustomerTable)
         val result = runBlocking { createReservationUseCase.run(
@@ -70,7 +72,7 @@ class UpdateReservationUseCaseTest : UnitTest() {
     }
 
     @Test
-    fun `table is marked as not available`(){
+    fun `when table marked as not available is reserved, failure occurs`(){
         given {repository.getReservations(CUSTOMER_ID)}.willReturn(emptyList())
         given {repository.getTable(TABLE_ID)}.willReturn(takenTable)
         val result = runBlocking { createReservationUseCase.run(
@@ -82,7 +84,7 @@ class UpdateReservationUseCaseTest : UnitTest() {
     }
 
     @Test
-    fun `limit for a maximum number of reservation`(){
+    fun `when limit for a maximum number of reservation is reached failure occurs`(){
         val listOfReservations = ArrayList<Reservation>()
         repeat(MAX_NUMBER_OF_TABLES_PER_CUSTOMER){
             listOfReservations.add(ownReservation)

@@ -52,7 +52,7 @@ class DefaultRepositoryTest: UnitTest() {
         verify(service).tables()
     }
 
-    @Test fun `tables service should return server error if no successful response`() {
+    @Test fun `when unsuccessful response, tables service should return server error`() {
         given { tablesResponse.isSuccessful }.willReturn(false)
         given { tablesCall.execute() }.willReturn(tablesResponse)
         given { service.tables() }.willReturn(tablesCall)

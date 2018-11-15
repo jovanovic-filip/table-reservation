@@ -1,14 +1,21 @@
 package com.tablereservation.core.platform
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.tablereservation.AndroidTest
+import com.tablereservation.UnitTest
 import com.tablereservation.core.exception.Failure
 import org.amshove.kluent.shouldBeInstanceOf
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 
-class BaseViewModelTest : AndroidTest() {
+class BaseViewModelTest : UnitTest() {
 
-    @Test fun `should handle failure by updating live data`() {
+    @Rule
+    @JvmField
+    var rule: TestRule = InstantTaskExecutorRule()
+
+    @Test fun `error handling should handle failure by updating live data`() {
         val viewModel = MyViewModel()
 
         viewModel.handleError(Failure.NetworkConnection())

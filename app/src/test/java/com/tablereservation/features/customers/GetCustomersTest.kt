@@ -7,6 +7,7 @@ import com.tablereservation.repository.Repository
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
+import com.tablereservation.core.interactor.TestUseCaseContextProvider
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -21,7 +22,7 @@ class GetCustomersTest: UnitTest() {
     @Before
     fun setUp() {
         getCustomersUseCase = GetCustomersUseCase(repository)
-        getCustomersUseCase.setupForUnitTests()
+        getCustomersUseCase.contextProvider = TestUseCaseContextProvider()
         given { repository.customers() }.willReturn(Either.Right(ArrayList()))
     }
 

@@ -8,8 +8,10 @@ import org.junit.Test
 
 class EitherTest : UnitTest() {
 
+    private val arbitraryValue = "arbitrary value"
+
     @Test fun `Either Right should return correct type`() {
-        val result = Either.Right("arbitraryvalue")
+        val result = Either.Right(arbitraryValue)
 
         result shouldBeInstanceOf Either::class.java
         result.isRight shouldBe true
@@ -17,12 +19,12 @@ class EitherTest : UnitTest() {
         result.either({},
                 { right ->
                     right shouldBeInstanceOf String::class.java
-                    right shouldBeEqualTo "arbitraryvalue"
+                    right shouldBeEqualTo arbitraryValue
                 })
     }
 
     @Test fun `Either Left should return correct type`() {
-        val result = Either.Left("arbitraryvalue")
+        val result = Either.Left(arbitraryValue)
 
         result shouldBeInstanceOf Either::class.java
         result.isLeft shouldBe true
@@ -30,7 +32,7 @@ class EitherTest : UnitTest() {
         result.either(
                 { left ->
                     left shouldBeInstanceOf String::class.java
-                    left shouldBeEqualTo "arbitraryvalue"
+                    left shouldBeEqualTo arbitraryValue
                 }, {})
     }
 }
