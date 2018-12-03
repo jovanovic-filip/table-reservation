@@ -97,7 +97,7 @@ open class DefaultRepository
         return result
     }
 
-    fun <T, R> webRequest(call: Call<T>, transform: (T) -> R, default: T): Either<Failure, R> {
+    private fun <T, R> webRequest(call: Call<T>, transform: (T) -> R, default: T): Either<Failure, R> {
         return try {
             val response = call.execute()
             when (response.isSuccessful) {
