@@ -11,9 +11,9 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class RepositoryModule(appContext : Context) {
+class RepositoryModule(appContext: Context) {
 
-    private var reservationsDatabase : ReservationsDatabase = Room.databaseBuilder(
+    private var reservationsDatabase: ReservationsDatabase = Room.databaseBuilder(
         appContext,
         ReservationsDatabase::class.java,
         "reservations"
@@ -28,7 +28,7 @@ class RepositoryModule(appContext : Context) {
 
     @Provides
     @Singleton
-    fun providesDao( reservationsDatabase : ReservationsDatabase) : ReservationsDao  = reservationsDatabase.reservationDao()
+    fun providesDao(database: ReservationsDatabase): ReservationsDao  = database.reservationDao()
 
     @Provides
     @Singleton

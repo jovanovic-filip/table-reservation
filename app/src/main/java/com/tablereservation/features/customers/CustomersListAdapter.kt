@@ -29,10 +29,10 @@ class CustomersListAdapter @Inject constructor() : RecyclerView.Adapter<Customer
         val customer = items[position]
         val displayNme = "${customer.customerFirstName} ${customer.customerLastName}"
         holder.itemView.customerName.text = displayNme
-        holder.itemView.setOnClickListener {
+        holder.itemView.setOnClickListener { view ->
             val action =
                 CustomersListFragmentDirections.openTableSelection(customer.id)
-            it.findNavController().navigate(action)
+            view.findNavController().navigate(action)
         }
     }
 

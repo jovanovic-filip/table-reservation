@@ -1,17 +1,17 @@
 package com.tablereservation.features.customers
 
-import androidx.lifecycle.MutableLiveData
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tablereservation.R
-import com.tablereservation.core.extension.observe
+import com.tablereservation.core.exception.Failure
 import com.tablereservation.core.extension.failure
+import com.tablereservation.core.extension.observe
+import com.tablereservation.core.extension.showSnackbar
 import com.tablereservation.core.extension.viewModel
 import com.tablereservation.core.platform.BaseFragment
-import com.tablereservation.core.exception.Failure
-import com.tablereservation.core.extension.showSnackbar
 import kotlinx.android.synthetic.main.fragment_customer_list.*
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class CustomersListFragment : BaseFragment() {
     private lateinit var customersViewModel: CustomersViewModel
     @Inject lateinit var customersAdapter: CustomersListAdapter
 
-    override fun onCreate(savedInstanceState : Bundle?)  {
+    override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
         appComponent.inject(this)
         customersViewModel = viewModel(viewModelFactory) {

@@ -8,7 +8,10 @@ import com.tablereservation.core.platform.BaseFragment
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 
-inline fun <reified T : ViewModel> androidx.fragment.app.Fragment.viewModel(factory: Factory, body: T.() -> Unit): T {
+inline fun <reified T : ViewModel> androidx.fragment.app.Fragment.viewModel(
+    factory: Factory,
+    body: T.() -> Unit
+): T {
     val vm = ViewModelProviders.of(this, factory).get(T::class.java)
     vm.body()
     return vm

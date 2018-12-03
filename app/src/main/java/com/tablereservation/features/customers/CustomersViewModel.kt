@@ -3,7 +3,6 @@ package com.tablereservation.features.customers
 import androidx.lifecycle.MutableLiveData
 import com.tablereservation.core.interactor.UseCase
 import com.tablereservation.core.platform.BaseViewModel
-import kotlinx.coroutines.cancel
 import javax.inject.Inject
 
 class CustomersViewModel

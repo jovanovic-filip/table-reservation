@@ -17,14 +17,13 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class, RepositoryModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 
-    fun repository() : Repository
-    fun reservationsDatabase() : ReservationsDatabase
-    fun reservationsDao() : ReservationsDao
+    fun repository(): Repository
+    fun reservationsDatabase(): ReservationsDatabase
+    fun reservationsDao(): ReservationsDao
 
     fun inject(application: AndroidApplication)
     fun inject(mainActivity: MainActivity)
     fun inject(customersListFragment: CustomersListFragment)
     fun inject(TableSelectionFragment: TableSelectionFragment)
     fun inject(clearReservationsWorker: ClearReservationsWorker)
-
 }
